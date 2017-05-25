@@ -1,0 +1,19 @@
+{
+  "name": "othello-client",
+  "version": "1.0.0",
+  "description": "client for a 2 person othello game",
+  "main": "othello.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Laughing-Man-Studios/othello-client.git"
+  },
+  "author": "David Gibb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Laughing-Man-Studios/othello-client/issues"
+  },
+  "homepage": "https://github.com/Laughing-Man-Studios/othello-client#readme"
+}
