@@ -4,7 +4,12 @@
   "description": "client for a 2 person othello game",
   "main": "othello.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack",
+    "build-css": "node-sass --include-path scss Client/css/scss.scss Client/css/css.css",
+    "build-m-css": "node-sass --include-path scss Client/css/m.scss.scss Client/css/m.css.css",
+    "wds": "webpack-dev-server",
+    "http-server": "lr-http-server"
   },
   "repository": {
     "type": "git",
@@ -15,5 +20,21 @@
   "bugs": {
     "url": "https://github.com/Laughing-Man-Studios/othello-client/issues"
   },
-  "homepage": "https://github.com/Laughing-Man-Studios/othello-client#readme"
+  "homepage": "https://github.com/Laughing-Man-Studios/othello-client#readme",
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router-dom": "^4.1.1",
+    "webpack": "^2.6.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "node-sass": "^4.5.3"
+  }
 }
