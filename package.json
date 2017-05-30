@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
-    "build-css": "node-sass --include-path scss Client/css/scss.scss Client/css/css.css",
-    "build-m-css": "node-sass --include-path scss Client/css/m.scss.scss Client/css/m.css.css",
+    "build-css": "node-sass --include-path scss css/scss.scss css/css.css",
+    "build-m-css": "node-sass --include-path scss css/m.scss.scss css/m.css.css",
     "wds": "webpack-dev-server",
     "http-server": "lr-http-server"
   },

@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Header from './Header';
-import Footer from './Footer';
-import Board from './Board';
-import Score from './Score';
+import { Header } from './Header';
+import { Footer } from './Footer';
+import { Board } from './Board';
+import { Score } from './Score';
 
-export default class Layout extends React.Component {
+export class Layout extends React.Component {
   render() {
     return (
       <div id="layout">
@@ -14,7 +13,7 @@ export default class Layout extends React.Component {
 
         <Score />
 
-        <div id="middle-content">
+        <div id="middle-content" className="row" >
           <Board />
         </div>
 
