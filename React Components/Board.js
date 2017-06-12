@@ -5,24 +5,17 @@ export class Board extends React.Component {
 
   render() {
     const colors = ['#000000', '#ffffff'];
-    const pieces = ['no piece', '#ff0000', '#0000ff'];
+    const pieces = ['no piece', '#ff0000', '#0000ff', 'valid move'];
 
-    const currentBoard = [
-      0, 1, 2, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0
-    ].map((tile, i) => (<Tile
-      key={i}
-      color={colors[((i + Math.floor(i / 8)) % 2)]}
-      piece={pieces[tile]}
-      xOff={100 * (i % 8)}
-      yOff={100 * (Math.floor(i / 8))}
-    />));
+    const currentBoard = this.props.board.map(
+      (tile, i) => (
+        <Tile
+          key={i}
+          color={colors[((i + Math.floor(i / 8)) % 2)]}
+          piece={((pieces[tile] === 3) && (this.props.turn)) ? pieces[0] : pieces[tile]}
+          col={i % 8}
+          row={Math.floor(i / 8)}
+        />));
 
     return (
       <div id="board">

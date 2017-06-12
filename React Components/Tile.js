@@ -3,23 +3,63 @@ import { Piece } from './Piece';
 
 export class Tile extends React.Component {
 
+  placeTileHere() {
+    // not sure how to emit an event
+    // something like this maybe
+    this.props.evtSource.emitEvent('/move', this.props.row, this.props.col);
+  }
+
   render() {
-    return (
-      <g>
-        <rect
-          fill={this.props.color}
-          width="100"
-          height="100"
-          x={this.props.xOff}
-          y={this.props.yOff}
-          ry="0"
-        />
-        <Piece
-          color={this.props.piece}
-          xOff={this.props.xOff + 50}
-          yOff={this.props.yOff + 50}
-        />
-      </g>
-    );
+
+    console.log('tile.render', this.props.piece)
+    switch (this.props.piece) {
+      case 'no piece':
+      return (
+        <g>
+          <rect
+            fill={this.props.color}
+            width="100"
+            height="100"
+            x={this.props.col * 100}
+            y={this.props.row * 100}
+            ry="0"
+          />
+        </g>
+      );
+
+      case '#ff0000':
+      case '#0000ff':
+        return (
+          <g>
+            <rect
+              fill={this.props.color}
+              width="100"
+              height="100"
+              x={this.props.col * 100}
+              y={this.props.row * 100}
+              ry="0"
+            />
+            <Piece
+              color={this.props.piece}
+              xOff={this.props.col * 100 + 50}
+              yOff={this.props.row * 100 + 50}
+            />
+          </g>
+        );
+
+      default:
+        return (
+          <g onClick={this.placeTileHere}>
+            <rect className="valid-move"
+              fill={this.props.color}
+              width="100"
+              height="100"
+              x={this.props.col * 100}
+              y={this.props.row * 100}
+              ry="0"
+            />
+          </g>
+        );
+    }
   }
 }
