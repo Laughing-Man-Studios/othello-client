@@ -26,3 +26,8 @@ export class Board extends React.Component {
     );
   }
 }
+
+Board.propTypes = {
+  turn: React.propTypes.number.isRequired,
+  board: React.propTypes.array.isRequired,
+};

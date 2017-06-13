@@ -10,22 +10,21 @@ export class Tile extends React.Component {
   }
 
   render() {
-
     console.log('tile.render', this.props.piece)
     switch (this.props.piece) {
       case 'no piece':
-      return (
-        <g>
-          <rect
-            fill={this.props.color}
-            width="100"
-            height="100"
-            x={this.props.col * 100}
-            y={this.props.row * 100}
-            ry="0"
-          />
-        </g>
-      );
+        return (
+          <g>
+            <rect
+              fill={this.props.color}
+              width="100"
+              height="100"
+              x={this.props.col * 100}
+              y={this.props.row * 100}
+              ry="0"
+            />
+          </g>
+        );
 
       case '#ff0000':
       case '#0000ff':
@@ -41,8 +40,8 @@ export class Tile extends React.Component {
             />
             <Piece
               color={this.props.piece}
-              xOff={this.props.col * 100 + 50}
-              yOff={this.props.row * 100 + 50}
+              xOff={(this.props.col * 100) + 50}
+              yOff={(this.props.row * 100) + 50}
             />
           </g>
         );
@@ -50,7 +49,8 @@ export class Tile extends React.Component {
       default:
         return (
           <g onClick={this.placeTileHere}>
-            <rect className="valid-move"
+            <rect
+              className="valid-move"
               fill={this.props.color}
               width="100"
               height="100"
@@ -63,3 +63,10 @@ export class Tile extends React.Component {
     }
   }
 }
+
+Tile.propTypes = {
+  row: React.propTypes.number.isRequired,
+  col: React.propTypes.number.isRequired,
+  piece: React.propTypes.string.isRequired,
+  color: React.propTypes.string.isRequired,
+};

@@ -23,31 +23,27 @@ export class Layout extends React.Component {
       playerOneScore: 0,
       playerTwoScore: 0,
       winner: false,
-      evtSource: false,
     }
   }
 
-  componentWillMount() {
-    const evtSource = new EventSource('/events'); // generic constructor
+  const evtSource = new EventSource('/events'); // generic constructor
 
-    evtSource.addEventListener('move', (row, col, player, turn, board) => {
-      // move logic
-    });
+  evtSource.addEventListener('move', (row, col, player, turn, board) => {
+    // move logic
+  });
 
-    evtSource.addEventListener('start', (turn) => {
-      // start logic
-    });
+  evtSource.addEventListener('start', (turn) => {
+    // start logic
+  });
 
-    evtSource.addEventListener('end', (winner) => {
-      // end logic
-    });
+  evtSource.addEventListener('end', (winner) => {
+    // end logic
+  });
 
-    this.setState({ evtSource: evtSource });
-  }
 
   render() {
     // if The game has not begun yet
-    if (!this.state.turn) {
+    if (!this.props.player) {
       return (
         <div id="layout">
           <Header />
@@ -69,7 +65,7 @@ export class Layout extends React.Component {
         <Score
           playerOneScore={this.state.playerOneScore}
           playerTwoScore={this.state.playerTwoScore}
-          turn={this.state.turn}
+          turn={(this.state.turn === this.props.player) ? 'Your Turn' : 'Their Turn';}
         />
 
         <div id="middle-content" className="row" >
@@ -81,4 +77,8 @@ export class Layout extends React.Component {
       </div>
     );
   }
+}
+
+Layout.propTypes = {
+   player: React.propTypes.number,
 }

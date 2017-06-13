@@ -9,17 +9,12 @@ const app = document.getElementById('app');
 const evtSource = new EventSource('/newgame');
 
 let playerDesignation = 0;
+let layout = <Layout player={playerDesignation} />;
+
 evtSource.addEventListener('return', (full, player) => {
   playerDesignation = player;
+  layout = <Layout player={playerDesignation} />;
 });
-
-const layout = () => {
-  return (
-    <Layout
-      player={playerDesignation}
-    />
-  );
-};
 
 ReactDOM.render(
   <Router>
