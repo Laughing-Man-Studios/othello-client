@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tile } from './Tile';
 
 export class Board extends React.Component {
@@ -15,6 +16,7 @@ export class Board extends React.Component {
           piece={((pieces[tile] === 3) && (this.props.turn)) ? pieces[0] : pieces[tile]}
           col={i % 8}
           row={Math.floor(i / 8)}
+          moveSource={this.props.moveSource}
         />));
 
     return (
@@ -28,6 +30,7 @@ export class Board extends React.Component {
 }
 
 Board.propTypes = {
-  turn: React.propTypes.number.isRequired,
-  board: React.propTypes.array.isRequired,
+  turn: PropTypes.number.isRequired,
+  board: PropTypes.array.isRequired,
+  moveSource: PropTypes.object.isRequired
 };

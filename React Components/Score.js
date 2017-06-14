@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export class Score extends React.Component {
 
@@ -22,7 +23,7 @@ export class Score extends React.Component {
 }
 
 Score.propTypes = {
-  playerOneScore: React.PropTypes.number.isRequired,
-  playerTwoScore: React.PropTypes.number.isRequired,
-  message: React.PropTypes.String.isRequired,
+  playerOneScore: PropTypes.number.isRequired,
+  playerTwoScore: PropTypes.number.isRequired,
+  message: PropTypes.String.isRequired,
 };

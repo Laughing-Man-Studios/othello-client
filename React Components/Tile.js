@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Piece } from './Piece';
+
 
 export class Tile extends React.Component {
 
   placeTileHere() {
-    // not sure how to emit an event
-    // something like this maybe
-    this.props.evtSource.emitEvent('/move', this.props.row, this.props.col);
+    const data = JSON.stringify({ row: this.props.row, col: this.props.col });
+    this.props.moveSource.post('/move/', data);
   }
 
   render() {
@@ -65,8 +66,9 @@ export class Tile extends React.Component {
 }
 
 Tile.propTypes = {
-  row: React.propTypes.number.isRequired,
-  col: React.propTypes.number.isRequired,
-  piece: React.propTypes.string.isRequired,
-  color: React.propTypes.string.isRequired,
+  row: PropTypes.number.isRequired,
+  col: PropTypes.number.isRequired,
+  piece: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  moveSource: PropTypes.object.isRequired,
 };

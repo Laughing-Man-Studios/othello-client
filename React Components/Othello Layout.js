@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { Board } from './Board';
 import { Score } from './Score';
+import { GameOver } from './GameOver';
 
 export class Layout extends React.Component {
 
@@ -13,33 +15,35 @@ export class Layout extends React.Component {
       board: [
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 3, 0, 0, 0,
-        0, 0, 0, 1, 2, 3, 0, 0,
-        0, 0, 3, 2, 1, 0, 0, 0,
-        0, 0, 0, 3, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
       ],
       playerOneScore: 0,
       playerTwoScore: 0,
       winner: false,
-    }
+    };
   }
 
-  const evtSource = new EventSource('/events'); // generic constructor
+  componentDidMount() {
+    this.props.eventSource.addEventListener('move', (data) => {
+      const moveData = JSON.parse(data);
+      this.setState({ board: moveData.board, turn: moveData.turn });
+    });
 
-  evtSource.addEventListener('move', (row, col, player, turn, board) => {
-    // move logic
-  });
+    this.props.eventSource.addEventListener('end', (data) => {
+      const endData = JSON.parse(data);
+      this.setState({ winner: endData.winner });
+    });
 
-  evtSource.addEventListener('start', (turn) => {
-    // start logic
-  });
-
-  evtSource.addEventListener('end', (winner) => {
-    // end logic
-  });
-
+    this.props.eventSource.addEventListener('start', (data) => {
+      const startData = JSON.parse(data);
+      this.setState({ turn: startData.turn });
+    });
+  }
 
   render() {
     // if The game has not begun yet
@@ -54,7 +58,39 @@ export class Layout extends React.Component {
           </div>
           <Footer />
         </div>
-      )
+      );
+    }
+
+    if (this.state.winner) {
+      return (
+        <div id="layout">
+
+          <GameOver
+            playerOneScore={this.state.playerOneScore}
+            playerTwoScore={this.state.playerTwoScore}
+            message={(this.state.turn === this.props.player) ? 'You Won' : 'You Lost'}
+          />
+
+          <Header />
+
+          <Score
+            playerOneScore={this.state.playerOneScore}
+            playerTwoScore={this.state.playerTwoScore}
+            message={(this.state.turn === this.props.player) ? 'Your Turn' : 'Their Turn'}
+          />
+
+          <div id="middle-content" className="row" >
+            <Board
+              moveSource={this.props.moveSource}
+              board={this.state.board}
+              turn={this.state.turn}
+            />
+          </div>
+
+          <Footer />
+
+        </div>
+      );
     }
 
     return (
@@ -65,7 +101,7 @@ export class Layout extends React.Component {
         <Score
           playerOneScore={this.state.playerOneScore}
           playerTwoScore={this.state.playerTwoScore}
-          turn={(this.state.turn === this.props.player) ? 'Your Turn' : 'Their Turn';}
+          message={(this.state.turn === this.props.player) ? 'Your Turn' : 'Their Turn'}
         />
 
         <div id="middle-content" className="row" >
@@ -80,5 +116,7 @@ export class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-   player: React.propTypes.number,
+  player: PropTypes.number.isRequired,
+  eventSource: PropTypes.object.isRequired,
+  moveSource: PropTypes.object.isRequired
 }

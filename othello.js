@@ -2,18 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Layout } from './React Components/Othello Layout';
-import { PreGameScreen } from './React Components/Othello Layout';
 
 const app = document.getElementById('app');
 
-const evtSource = new EventSource('/newgame');
+const newGameSource = new EventSource('/newgame');
+const eventSource = new EventSource('/events');
+const moveSource = new EventSource('/move');
 
 let playerDesignation = 0;
-let layout = <Layout player={playerDesignation} />;
+let layout = (<Layout
+  player={playerDesignation}
+  eventSource={eventSource}
+  moveSource={moveSource}
+/>);
 
-evtSource.addEventListener('return', (full, player) => {
-  playerDesignation = player;
-  layout = <Layout player={playerDesignation} />;
+newGameSource.get((event) => {
+  const data = JSON.parse(event.data);
+  playerDesignation = data.player;
+  layout = (<Layout
+    player={playerDesignation}
+    eventSource={eventSource}
+    moveSource={moveSource}
+  />);
 });
 
 ReactDOM.render(
