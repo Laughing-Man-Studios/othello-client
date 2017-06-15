@@ -1,4 +1,5 @@
 import React from 'react';
+import jquery from 'jquery';
 import PropTypes from 'prop-types';
 import { Piece } from './Piece';
 
@@ -7,7 +8,7 @@ export class Tile extends React.Component {
 
   placeTileHere() {
     const data = JSON.stringify({ row: this.props.row, col: this.props.col });
-    this.props.moveSource.post('/move/', data);
+    jquery.post('/move/' + this.props.player, data);
   }
 
   render() {
@@ -68,7 +69,8 @@ export class Tile extends React.Component {
 Tile.propTypes = {
   row: PropTypes.number.isRequired,
   col: PropTypes.number.isRequired,
+  player: PropTypes.number.isRequired,
   piece: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  moveSource: PropTypes.object.isRequired,
+
 };

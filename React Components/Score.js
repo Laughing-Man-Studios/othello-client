@@ -25,5 +25,5 @@ export class Score extends React.Component {
 Score.propTypes = {
   playerOneScore: PropTypes.number.isRequired,
   playerTwoScore: PropTypes.number.isRequired,
-  message: PropTypes.String.isRequired,
+  message: PropTypes.string.isRequired,
 };

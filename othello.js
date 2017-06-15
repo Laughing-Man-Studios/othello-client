@@ -1,29 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import jquery from 'jquery';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Layout } from './React Components/Othello Layout';
 
 const app = document.getElementById('app');
-
-const newGameSource = new EventSource('/newgame');
 const eventSource = new EventSource('/events');
-const moveSource = new EventSource('/move');
 
 let playerDesignation = 0;
-let layout = (<Layout
-  player={playerDesignation}
-  eventSource={eventSource}
-  moveSource={moveSource}
-/>);
+let status = 'waiting';
 
-newGameSource.get((event) => {
-  const data = JSON.parse(event.data);
-  playerDesignation = data.player;
-  layout = (<Layout
-    player={playerDesignation}
-    eventSource={eventSource}
-    moveSource={moveSource}
-  />);
+let layout = () => {
+  return (
+    <Layout
+      player={playerDesignation}
+      eventSource={eventSource}
+      status={status}
+    />
+  );
+};
+
+jquery.get('/newgame', (data) => {
+  const obj = JSON.parse(data);
+  playerDesignation = obj.player;
+  status = (obj.full) ? 'full' : 'valid';
+  layout = () => {
+    return (
+      <Layout
+        player={playerDesignation}
+        eventSource={eventSource}
+        status={status}
+      />
+    );
+  };
 });
 
 ReactDOM.render(

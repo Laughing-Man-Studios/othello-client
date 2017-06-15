@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export class Piece extends React.Component {
 
@@ -23,7 +24,7 @@ export class Piece extends React.Component {
 }
 
 Piece.propTypes = {
-  xOff: React.propTypes.number.isRequired,
-  yOff: React.propTypes.number.isRequired,
-  color: React.propTypes.string.isRequired,
+  xOff: PropTypes.number.isRequired,
+  yOff: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
 };

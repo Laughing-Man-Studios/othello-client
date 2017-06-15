@@ -13,10 +13,12 @@ export class Board extends React.Component {
         <Tile
           key={i}
           color={colors[((i + Math.floor(i / 8)) % 2)]}
-          piece={((pieces[tile] === 3) && (this.props.turn)) ? pieces[0] : pieces[tile]}
+          piece={((pieces[tile] === 3) && (this.props.turn === this.props.player))
+            ? pieces[0]
+            : pieces[tile]}
           col={i % 8}
           row={Math.floor(i / 8)}
-          moveSource={this.props.moveSource}
+          player={this.props.player}
         />));
 
     return (
@@ -32,5 +34,5 @@ export class Board extends React.Component {
 Board.propTypes = {
   turn: PropTypes.number.isRequired,
   board: PropTypes.array.isRequired,
-  moveSource: PropTypes.object.isRequired
+  player: PropTypes.number.isRequired,
 };

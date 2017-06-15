@@ -41,25 +41,56 @@ export class Layout extends React.Component {
 
     this.props.eventSource.addEventListener('start', (data) => {
       const startData = JSON.parse(data);
-      this.setState({ turn: startData.turn });
+      this.setState({ turn: startData.turn, start: true });
     });
   }
 
   render() {
-    // if The game has not begun yet
-    if (!this.props.player) {
+    if (this.props.status === 'waiting') {
       return (
         <div id="layout">
           <Header />
           <div id="middle-content" className="row">
             <div className="Jumbotron">
               <h2>Please Wait</h2>
+              <p>The server is setting up a game</p>
             </div>
           </div>
           <Footer />
         </div>
       );
     }
+
+    if (this.props.status === 'full') {
+      return (
+        <div id="layout">
+          <Header />
+          <div id="middle-content" className="row">
+            <div className="Jumbotron">
+              <h2>Game Full</h2>
+              <p>Please wait for the current game to end</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (!this.state.start) {
+      return (
+        <div id="layout">
+          <Header />
+          <div id="middle-content" className="row">
+            <div className="jumbotron">
+              <h2>Please Wait</h2>
+              <p>The server is waiting for another player to connect</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      );
+    }
+
 
     if (this.state.winner) {
       return (
@@ -81,7 +112,7 @@ export class Layout extends React.Component {
 
           <div id="middle-content" className="row" >
             <Board
-              moveSource={this.props.moveSource}
+              player={this.props.player}
               board={this.state.board}
               turn={this.state.turn}
             />
@@ -116,7 +147,7 @@ export class Layout extends React.Component {
 }
 
 Layout.propTypes = {
+  status: PropTypes.string.isRequired,
   player: PropTypes.number.isRequired,
   eventSource: PropTypes.object.isRequired,
-  moveSource: PropTypes.object.isRequired
-}
+};
