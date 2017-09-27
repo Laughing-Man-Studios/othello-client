@@ -26,18 +26,16 @@ export class Layout extends React.Component {
       playerOneScore: 0,
       playerTwoScore: 0,
       winner: false,
-      status: 'waiting',
+      status: 0,
       player: 0,
     };
-    this.reformatBoard = this.reformatBoard.bind(this);
-    this.getScore = this.getScore.bind(this);
   }
 
   componentDidMount() {
     jquery.get('/newgame', (data) => {
       const obj = JSON.parse(data);
       const playerDesignation = obj.Player;
-      const status = (obj.Full) ? 'full' : 'valid';
+      const status = (obj.Full) ? 1 : 2;
       this.setState({
         status: status,
         player: playerDesignation,
@@ -69,7 +67,7 @@ export class Layout extends React.Component {
       console.log('start Received');
       const startData = JSON.parse(data.data);
       console.log(startData);
-      this.setState({ turn: startData.Turn, status: 'playing' });
+      this.setState({ turn: startData.Turn, status: 4 });
     });
   }
 
@@ -108,44 +106,21 @@ export class Layout extends React.Component {
   render() {
     console.log(this.props);
 
-    if (this.state.status === 'waiting') {
+    if ((this.state.status >= 0) && (this.state.status <= 2)) {
+
+      const message = [
+        'The server is setting up a game',
+        'Please wait for the current game to end',
+        'For another player to join'
+      ]
+
       return (
         <div id="layout">
           <Header />
           <div id="middle-content" className="row">
             <div className="jumbotron col-lg-6 col-md-9 col-sm-12 col-xs-12">
               <h2>Please Wait</h2>
-              <p>The server is setting up a game</p>
-            </div>
-          </div>
-          <Footer />
-        </div>
-      );
-    }
-
-    if (this.state.status === 'valid') {
-      return (
-        <div id="layout">
-          <Header />
-          <div id="middle-content" className="row">
-            <div className="jumbotron col-lg-6 col-md-9 col-sm-12 col-xs-12">
-              <h2>Please Wait</h2>
-              <p>For another player to join</p>
-            </div>
-          </div>
-          <Footer />
-        </div>
-      );
-    }
-
-    if (this.state.status === 'full') {
-      return (
-        <div id="layout">
-          <Header />
-          <div id="middle-content" className="row">
-            <div className="jumbotron col-lg-6 col-md-9 col-sm-12 col-xs-12">
-              <h2>Game Full</h2>
-              <p>Please wait for the current game to end</p>
+              <p>{message[this.state.status]}</p>
             </div>
           </div>
           <Footer />
