@@ -13,7 +13,7 @@ export class Board extends React.Component {
         <Tile
           key={i}
           color={colors[((i + Math.floor(i / 8)) % 2)]}
-          piece={((pieces[tile] === 3) && (this.props.turn === this.props.player))
+          piece={((tile === 3) && (this.props.turn !== this.props.player))
             ? pieces[0]
             : pieces[tile]}
           col={i % 8}

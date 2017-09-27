@@ -6,13 +6,19 @@ import { Piece } from './Piece';
 
 export class Tile extends React.Component {
 
+  constructor() {
+    super();
+    this.placeTileHere = this.placeTileHere.bind(this);
+  }
+
   placeTileHere() {
-    const data = JSON.stringify({ row: this.props.row, col: this.props.col });
+    const data = 'Row='+this.props.row+'&Col='+this.props.col;
+    console.log(data);
     jquery.post('/move/' + this.props.player, data);
+    console.log('you just placed a tile at [', this.props.row, ',', this.props.col, ']')
   }
 
   render() {
-    console.log('tile.render', this.props.piece)
     switch (this.props.piece) {
       case 'no piece':
         return (
@@ -49,6 +55,7 @@ export class Tile extends React.Component {
         );
 
       default:
+        console.log('valid move at [', this.props.col, ',', this.props.row, ']')
         return (
           <g onClick={this.placeTileHere}>
             <rect
