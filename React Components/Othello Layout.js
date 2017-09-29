@@ -6,6 +6,10 @@ import { Board } from './Board';
 import { Score } from './Score';
 import { GameOver } from './GameOver';
 
+const FULL = 'full';
+const PLAYING = 'playing';
+const VALID = 'valid';
+const WAITING = 'waiting';
 
 export class Layout extends React.Component {
 
@@ -26,7 +30,7 @@ export class Layout extends React.Component {
       playerOneScore: 0,
       playerTwoScore: 0,
       winner: false,
-      status: 0,
+      status: WAITING,
       player: 0,
     };
   }
@@ -35,7 +39,7 @@ export class Layout extends React.Component {
     jquery.get('/newgame', (data) => {
       const obj = JSON.parse(data);
       const playerDesignation = obj.Player;
-      const status = (obj.Full) ? 1 : 2;
+      const status = (obj.Full) ? FULL : VALID;
       this.setState({
         status: status,
         player: playerDesignation,
@@ -67,7 +71,7 @@ export class Layout extends React.Component {
       console.log('start Received');
       const startData = JSON.parse(data.data);
       console.log(startData);
-      this.setState({ turn: startData.Turn, status: 4 });
+      this.setState({ turn: startData.Turn, status: PLAYING });
     });
   }
 
@@ -106,21 +110,43 @@ export class Layout extends React.Component {
   render() {
     console.log(this.props);
 
-    if ((this.state.status >= 0) && (this.state.status <= 2)) {
+    if (this.state.status !== PLAYING) {
 
-      const message = [
-        'The server is setting up a game',
-        'Please wait for the current game to end',
-        'For another player to join'
-      ]
+      const messages = {
+        full: 'Please wait for the current game to end',
+        valid: 'For another player to join',
+        waiting: 'The server is setting up a game',
+      }
+
+      let message;
+
+      switch (this.state.status) {
+
+        case FULL:
+          message = messages.full;
+          break;
+
+        case VALID:
+          message = messages.valid;
+          break;
+
+        case WAITING:
+          message = messages.waiting;
+          break;
+
+        default:
+          message = 'The client experienced an error pease report a bug'
+          break;
+      }
 
       return (
         <div id="layout">
           <Header />
           <div id="middle-content" className="row">
-            <div className="jumbotron col-lg-6 col-md-9 col-sm-12 col-xs-12">
+            <div className="col-lg-3 col-md-3 col-sm-1 col-xs-11" />
+            <div className="jumbotron col-lg-6 col-md-8 col-sm-10 col-xs-10">
               <h2>Please Wait</h2>
-              <p>{message[this.state.status]}</p>
+              <p>{message}</p>
             </div>
           </div>
           <Footer />
@@ -171,7 +197,7 @@ export class Layout extends React.Component {
           message={(this.state.turn === this.state.player) ? 'Your Turn' : 'Their Turn'}
         />
 
-        <div id="middle-content" className="row" >
+        <div id="game-middle-content" className="row" >
           <Board board={this.state.board} turn={this.state.turn} player={this.state.player} />
         </div>
 

@@ -1,5 +1,6 @@
 $darkGrey1: #222222;
 $darkGrey2:#2b2b2b;
+$darkGrey3:#3b3b3b;
 $lightGrey1:#f7f7f7;
 $lightGrey2:#e8e3dd;
 $blue1:#1a3e5d;
@@ -59,8 +60,13 @@ html, body{
   }
 }
 
-#middle-content{
+#game-middle-content{
   height:calc(100vh - 250.84px);
+  background-color:$lightGrey1;
+}
+
+#middle-content{
+  height:calc(100vh - 172px);
   background-color:$lightGrey1;
 }
 
@@ -92,11 +98,18 @@ html, body{
 }
 
 #score{
-  background-color:$lightGrey1;
+  background-color:$darkGrey3;
   padding:30px;
   position:relative;
   left:50%;
   transform:translateX(-50%);
+  color: $lightGrey1;
+  font-family: Roboto medium;
+  font-size: 20px;
+}
+
+.score-row{
+  background-color:$darkGrey3;
 }
 
 svg{
@@ -108,4 +121,12 @@ height:100%;
   &:hover{
     fill: #00ff00;
   }
+}
+
+.jumbotron{
+  h2, p {
+    text-align: center;
+  }
+  top:50%;
+  transform:translateY(-50%);
 }
