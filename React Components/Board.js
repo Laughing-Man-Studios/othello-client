@@ -23,7 +23,7 @@ export class Board extends React.Component {
 
     return (
       <div id="board">
-        <svg>
+        <svg viewBox="0 0 800 800">
           {currentBoard}
         </svg>
       </div>
